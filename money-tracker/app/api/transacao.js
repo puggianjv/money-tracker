@@ -68,4 +68,47 @@ api.atualiza = function(req, res){
 
 }
 
+api.buscaEntreDatas = function(req, res){
+
+	var ano = req.params.ano;
+	var mes = req.params.mes;
+	var mesSeguinte;
+	var anoSeguinte;
+
+	if(mes == 12){
+		mesSeguinte = 1;
+		anoSeguinte = Number(ano) + 1;
+	}else{
+		mesSeguinte = Number(mes) + 1;
+		anoSeguinte = ano;
+	}
+
+	mes = mesToString(mes);
+	mesSeguinte = mesToString(mesSeguinte);
+
+	model
+		.find({
+			data: {
+				$gte: new Date(ano + "-" + mes + "-01T00:00:00.000Z"),
+				$lt: new Date(anoSeguinte + "-" + mesSeguinte + "-01T00:00:00.000Z")
+			}
+		})
+		.then(function(transacoes){
+			res.json(transacoes);
+		}, function(error){
+			console.log(error);
+			res.status(500).json(error);
+		});
+
+
+
+}
+
+function mesToString(mes){
+	if(mes < 10){
+		mes = "0" + mes;
+	}
+	return "" + mes;
+}
+
 module.exports = api;
