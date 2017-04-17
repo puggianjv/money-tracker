@@ -9,11 +9,27 @@ angular.module('alurapic').controller('TransacoesController', function($scope, r
 		console.log(erro);
 	});
 
-	$scope.mes = 3;
+	var meses = [
+		new Array(31), // 0 - jan
+		new Array(28), // 1 - feb
+		new Array(31),
+		new Array(30),
+		new Array(31),
+		new Array(30),
+		new Array(31),
+		new Array(31),
+		new Array(30),
+		new Array(31),
+		new Array(30),
+		new Array(31)
+	]
 
+	$scope.atual = meses[3];
+	
 	$scope.trocarMes = function(mes){
-		$scope.mes = mes;
+		$scope.atual = $scope.atual = meses[mes];
 	}
+
 
 	// $scope.remover = function(foto) {
 
